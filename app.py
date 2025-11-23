@@ -16,33 +16,26 @@ def load_assets():
         return
 
     try:
-        print("Starting model download...", flush=True)
+        # paths para modelo y scaler con Hugging Face
         model_path = hf_hub_download(
             repo_id="sophie-muriel/insurance-renewal",
             filename="insurance_renewal_model.pkl",
             cache_dir="."
         )
-        print(f"Model downloaded to: {model_path}", flush=True)
-
         scaler_path = hf_hub_download(
             repo_id="sophie-muriel/insurance-renewal",
             filename="scaler.pkl",
             cache_dir="."
         )
-        print(f"Scaler downloaded to: {scaler_path}", flush=True)
 
+        # abrir con Pickle
         with open(model_path, "rb") as f:
             model = pickle.load(f)
-        print("Model loaded!", flush=True)
-
         with open(scaler_path, "rb") as f:
             scaler = pickle.load(f)
-        print("Scaler loaded!", flush=True)
 
     except Exception as e:
-        print(f"ERROR loading assets: {str(e)}", flush=True)
-        import traceback
-        traceback.print_exc()
+        print(f"ERROR: {str(e)}", flush=True)
         raise
 
 
@@ -56,6 +49,7 @@ def load_assets():
 @app.route("/")
 def home():
     try:
+        # cargar modelo y scaler
         load_assets()
         return render_template("index.html")
     except Exception as e:
@@ -64,59 +58,61 @@ def home():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    # load_assets()
-    # features del modelo en orden
-    # form_fields = [
-    #     "perc_premium_paid_by_cash_credit",
-    #     "income",
-    #     "application_underwriting_score",
-    #     "age_in_years",
-    #     "total_late_payments",
-    #     "has_late_payments"
-    # ]
+    try:
+        load_assets()  # cargar modelo y scaler
+        form_fields = [
+            "perc_premium_paid_by_cash_credit",
+            "income",
+            "application_underwriting_score",
+            "age_in_years",
+            "total_late_payments",
+            "has_late_payments"
+        ]  # features del modelo en orden
 
-    # form_values = [float(request.form[field]) for field in form_fields]
+        form_values = [float(request.form[field]) for field in form_fields]
 
-    # # transformación logarítmica a 'income'
-    # form_values[1] = np.log(form_values[1] + 1)
+        # transformación logarítmica a 'income'
+        form_values[1] = np.log(form_values[1] + 1)
 
-    # full_numeric = np.array([[
-    #     form_values[0],  # perc_premium
-    #     form_values[1],  # income (logged)
-    #     form_values[2],  # app_score
-    #     0,               # no_of_premiums_paid (dummy)
-    #     0,               # premium (dummy)
-    #     form_values[3],  # age
-    #     form_values[4]   # total_late
-    # ]])
+        full_numeric = np.array([[
+            form_values[0],  # perc_premium
+            form_values[1],  # income (logged)
+            form_values[2],  # app_score
+            0,               # no_of_premiums_paid (dummy)
+            0,               # premium (dummy)
+            form_values[3],  # age
+            form_values[4]   # total_late
+        ]])
 
-    # scaled_full = scaler.transform(full_numeric)
+        scaled_full = scaler.transform(full_numeric)
 
-    # # features finales para el modelo
-    # selected_indices = [0, 1, 2, 5, 6]
-    # X_final = scaled_full[:, selected_indices]
+        # features finales para el modelo
+        selected_indices = [0, 1, 2, 5, 6]
+        X_final = scaled_full[:, selected_indices]
 
-    # # feature binaria (no escalada)
-    # has_late = form_values[5]
-    # X_input = np.hstack([X_final, np.array([[has_late]])])
+        # feature binaria (no escalada)
+        has_late = form_values[5]
+        X_input = np.hstack([X_final, np.array([[has_late]])])
 
-    # # predicción
-    # prediction = model.predict(X_input)[0]
-    # prob_renew = model.predict_proba(X_input)[0][1]
+        # predicción
+        prediction = model.predict(X_input)[0]
+        prob_renew = model.predict_proba(X_input)[0][1]
 
-    # # generar texto del resultado
-    # if prediction == 1:
-    #     result_text = (
-    #         f"RENOVACIÓN PROBABLE // PROBABILIDAD: "
-    #         f"<span class='prob-accent'>{prob_renew*100:.1f}%</span>"
-    #     )
-    # else:
-    #     result_text = (
-    #         f"RENOVACIÓN IMPROBABLE (CHURN) // PROBABILIDAD: "
-    #         f"<span class='prob-accent'>{prob_renew*100:.1f}%</span>"
-    #     )
+        # generar texto del resultado
+        if prediction == 1:
+            result_text = (
+                f"RENOVACIÓN PROBABLE // PROBABILIDAD: "
+                f"<span class='prob-accent'>{prob_renew*100:.1f}%</span>"
+            )
+        else:
+            result_text = (
+                f"RENOVACIÓN IMPROBABLE (CHURN) // PROBABILIDAD: "
+                f"<span class='prob-accent'>{prob_renew*100:.1f}%</span>"
+            )
 
-    return render_template("index.html", prediction_text="result_text")
+        return render_template("index.html", prediction_text=result_text)
+    except Exception as e:
+        return f"ERROR: {str(e)}", 500
 
 
 @app.route("/health")
