@@ -10,5 +10,4 @@ flask
 ipykernel
 ipywidgets
 huggingface_hub
-fastapi
-uvicorn
+gunicorn
