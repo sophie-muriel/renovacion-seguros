@@ -236,7 +236,7 @@ form {
 
 .input-group label {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
@@ -382,4 +382,52 @@ input[type="number"] {
     text-align: center;
     border-bottom: 1px solid var(--border);
   }
+}
+
+/* --- validaciones --- */
+.error-badge {
+    color: #ff4444;
+    font-weight: 800;
+    font-size: 0.8rem;
+    margin-left: auto;
+    text-transform: uppercase;
+    animation: flash-error 0.5s ease-out;
+}
+
+@keyframes flash-error {
+    0% { opacity: 0; transform: translateX(-5px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+.input-group.error-state {
+    border-color: #ff4444;
+    background-color: rgba(255, 68, 68, 0.05);
+}
+
+.input-group.error-state label {
+    color: #ff4444;
+}
+
+.input-group.error-state label::before {
+    background: #ff4444;
+}
+
+.input-group.error-state input {
+    color: #ff4444;
+}
+
+.input-group.error-state input:focus {
+    border-bottom: 1px solid #ff4444;
+}
+
+.btn-submit:disabled {
+    background-color: #333;
+    color: #666;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn-submit:disabled:hover {
+    background-color: #333;
+    padding: 0 3rem;
 }

@@ -72,10 +72,17 @@
         <div class="big-stat">25</div>
       </aside>
       <main class="panel-right">
-        <form action="{{ url_for('predict')}}" method="post">
+        <form
+          action="{{ url_for('predict')}}"
+          method="post"
+          id="predictionForm"
+        >
           <div class="form-grid">
             <div class="input-group">
-              <label>Porcentaje de Pago Efectivo/Crédito (#)</label>
+              <label>
+                Porcentaje de Pago Efectivo/Crédito (#)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="perc_premium_paid_by_cash_credit"
@@ -87,7 +94,10 @@
               />
             </div>
             <div class="input-group">
-              <label>Ingresos Anuales ($)</label>
+              <label>
+                Ingresos Anuales ($)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="income"
@@ -99,7 +109,10 @@
               />
             </div>
             <div class="input-group">
-              <label>Puntaje de Suscripción (#)</label>
+              <label>
+                Puntaje de Suscripción (%)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="application_underwriting_score"
@@ -111,7 +124,10 @@
               />
             </div>
             <div class="input-group">
-              <label>Edad en Años (#)</label>
+              <label>
+                Edad en Años (#)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="age_in_years"
@@ -123,7 +139,10 @@
               />
             </div>
             <div class="input-group">
-              <label>Total de Pagos Atrasados (#)</label>
+              <label>
+                Total Pagos Atrasados (#)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="total_late_payments"
@@ -135,7 +154,10 @@
               />
             </div>
             <div class="input-group">
-              <label>Historial de Atrasos (bool)</label>
+              <label>
+                Historial Atrasos (0/1)
+                <span class="error-badge"></span>
+              </label>
               <input
                 type="number"
                 name="has_late_payments"
@@ -161,7 +183,7 @@
               </div>
               {% endif %}
             </div>
-            <button type="submit" class="btn-submit">
+            <button type="submit" class="btn-submit" id="submitBtn">
               Analizar <span style="font-size: 1.2em">→</span>
             </button>
           </div>
@@ -170,6 +192,70 @@
     </div>
 
     <script>
+      /* --- validación --- */
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("predictionForm");
+        const inputs = form.querySelectorAll("input");
+        const submitBtn = document.getElementById("submitBtn");
+
+        function validateInput(input) {
+          const group = input.parentElement;
+          const badge = group.querySelector(".error-badge");
+          let isValid = true;
+
+          if (!input.checkValidity()) {
+            isValid = false;
+            group.classList.add("error-state");
+
+            if (input.validity.valueMissing) {
+              badge.textContent = "[REQUERIDO]";
+            } else if (input.validity.rangeOverflow) {
+              badge.textContent = `[MAX: ${input.max}]`;
+            } else if (input.validity.rangeUnderflow) {
+              badge.textContent = `[MIN: ${input.min}]`;
+            } else if (input.validity.stepMismatch) {
+              badge.textContent = "[DECIMALES INCORRECTOS]";
+            } else {
+              badge.textContent = "[INVÁLIDO]";
+            }
+          } else {
+            group.classList.remove("error-state");
+            badge.textContent = "";
+          }
+          return isValid;
+        }
+
+        function checkAllInputs() {
+          let allValid = true;
+          inputs.forEach((input) => {
+            if (!input.checkValidity()) allValid = false;
+          });
+
+          submitBtn.disabled = !allValid;
+          if (!allValid) {
+            submitBtn.style.opacity = "0.3";
+            submitBtn.style.cursor = "not-allowed";
+          } else {
+            submitBtn.style.opacity = "1";
+            submitBtn.style.cursor = "pointer";
+          }
+        }
+
+        inputs.forEach((input) => {
+          input.addEventListener("input", () => {
+            validateInput(input);
+            checkAllInputs();
+          });
+          input.addEventListener("blur", () => {
+            validateInput(input);
+            checkAllInputs();
+          });
+        });
+
+        checkAllInputs();
+      });
+
+      /* --- loader --- */
       function hideLoader() {
         const loader = document.getElementById("loader-overlay");
         if (loader) {
@@ -196,17 +282,16 @@
           });
       }
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const resultText = document.querySelector(".result-text");
-        const hasResult =
-          resultText && resultText.innerText.includes("RESULTADO");
+      const resultText = document.querySelector(".result-text");
+      const hasResult =
+        resultText && resultText.innerText.includes("RESULTADO");
 
-        if (hasResult) {
-          hideLoader();
-        } else {
-          checkServerStatus();
-        }
-      });
+      if (hasResult) {
+        const loader = document.getElementById("loader-overlay");
+        if (loader) loader.style.display = "none";
+      } else {
+        checkServerStatus();
+      }
     </script>
   </body>
 </html>
