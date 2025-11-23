@@ -5,22 +5,34 @@ from huggingface_hub import hf_hub_download
 
 app = Flask(__name__)
 
-# cargar modelo remoto
-model_path = hf_hub_download(
-    repo_id="sophie-muriel/insurance-renewal",
-    filename="insurance_renewal_model.pkl")
+model = None
+scaler = None
 
-# cargar scaler remoto
-scaler_path = hf_hub_download(
-    repo_id="sophie-muriel/insurance-renewal",
-    filename="scaler.pkl"
-)
 
-with open(model_path, "rb") as f:
-    model = pickle.load(f)  # abrir modelo
+def load_assets():
+    global model, scaler
 
-with open(scaler_path, "rb") as f:
-    scaler = pickle.load(f)  # abrir scaler
+    if model is not None and scaler is not None:
+        return  # already loaded
+
+    # descargar y cachear
+    model_path = hf_hub_download(
+        repo_id="sophie-muriel/insurance-renewal",
+        filename="insurance_renewal_model.pkl",
+        cache_dir="."
+    )
+
+    scaler_path = hf_hub_download(
+        repo_id="sophie-muriel/insurance-renewal",
+        filename="scaler.pkl",
+        cache_dir="."
+    )
+
+    with open(model_path, "rb") as f:
+        model = pickle.load(f)
+
+    with open(scaler_path, "rb") as f:
+        scaler = pickle.load(f)
 
 
 # cargar modelo local
@@ -32,11 +44,13 @@ with open(scaler_path, "rb") as f:
 
 @app.route("/")
 def home():
+    load_assets()
     return render_template("index.html")
 
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    load_assets()
     # features del modelo en orden
     form_fields = [
         "perc_premium_paid_by_cash_credit",
@@ -89,6 +103,11 @@ def predict():
         )
 
     return render_template("index.html", prediction_text=result_text)
+
+
+@app.route("/health")
+def health():
+    return "ok", 200
 
 
 if __name__ == "__main__":
