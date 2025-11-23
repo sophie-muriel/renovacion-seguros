@@ -1,255 +1,203 @@
-# Proyecto final - Machine learning
+# > PROYECTO FINAL ML: PREDICTOR // RENOVACIÓN
 
-![Repo Size](https://img.shields.io/github/repo-size/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge)
-![Last Commit](https://img.shields.io/github/last-commit/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge)
-![Contributors](https://img.shields.io/github/contributors/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge)
+![Repo Size](https://img.shields.io/github/repo-size/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
+![Last Commit](https://img.shields.io/github/last-commit/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=ffe058&labelColor=black)
+![Contributors](https://img.shields.io/github/contributors/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
 
----
+> **_SISTEMA DE PREDICCIÓN DE RETENCIÓN DE PÓLIZAS DE SEGUROS._**
 
-> **Nota:**  
-> El archivo del modelo entrenado (`insurance_renewal_model.pkl`) y el scaler (`scaler.pkl`) no se incluye en este repositorio debido a su tamaño. Ambos se **generan automáticamente** al ejecutar el notebook, específicamente en la **Sección 10**, donde se entrena al modelo y se guarda localmente junto con el scaler.
+## ⚡ APP WEB // DEMO EN VIVO
 
----
+Este proyecto opera como una aplicación web en Flask para inferencia en tiempo real.
+La instancia de producción está desplegada estáticamente en **Railway**.
 
-Este repositorio contiene el desarrollo completo del dataset **insurance_company.csv**, cuyo objetivo es analizar, procesar y modelar la información de una aseguradora para predecir la probabilidad de renovación de pólizas. El proyecto incluye el caso de negocio, el análisis exploratorio (EDA), el preprocesamiento, la construcción de modelos de Machine Learning, la selección de modelo final, las conclusiones orientadas a la toma de decisiones comerciales y una aplicación web en Flask para predecir si un cliente renovará o no, siendo esta la pregunta rectora y el objetivo final del análisis.
+**🔗 ACCESO AL SISTEMA** > **[https://proyectofinal-muriel-vitonco-production.up.railway.app/](https://proyectofinal-muriel-vitonco-production.up.railway.app/)**
 
----
+> ## ⚠️ NOTA: ARCHIVOS EXTERNOS
+>
+> Para optimizar el repositorio, los archivos binarios pesados (`.pkl`) **NO** están alojados aquí.
+>
+> - **Origen:** Se generan automáticamente en la `[SECCIÓN 10]` del Jupyter Notebook durante su ejecución.
+> - **Runtime:** Durante el despliegue, el sistema descarga automáticamente los modelos desde **Hugging Face Hub**.
+>
+> | ARCHIVO | TIPO | ENLACE |
+> | :------ | :--- | :----- |
+> | `insurance_renewal_model.pkl` | Modelo (Random Forest) | [Hugging Face Repo](https://huggingface.co/sophie-muriel/insurance-renewal/blob/main/insurance_renewal_model.pkl) |
+> | `scaler.pkl` | Scaler (MinMax) | [Hugging Face Repo](https://huggingface.co/sophie-muriel/insurance-renewal/blob/main/scaler.pkl) |
 
-## Descripción general del proyecto
+## 🧭 ÍNDICE // NAVEGACIÓN
 
-Este proyecto analiza el comportamiento de renovación de pólizas de una compañía de seguros con el objetivo de predecir qué clientes tienen mayor o menor probabilidad de renovar. El trabajo incluye:
+1.  [DETALLES DEL PROYECTO](#-detalles-del-proyecto)
+2.  [SISTEMA DE ARCHIVOS](#-sistema-de-archivos)
+3.  [INICIALIZACIÓN](#-inicialización)
+4.  [PROTOCOLOS DE EJECUCIÓN](#-protocolos-de-ejecución)
+5.  [CONCLUSIONES GENERALES](#-conclusiones-generales)
+6.  [AUTORES](#-autores)
 
-- **Caso de negocio**: Identificación del problema de retención de clientes y su impacto financiero.
-- **Análisis Exploratorio de Datos (EDA)**: Evaluación del comportamiento de las variables categóricas y numéricas, detección de patrones, outliers y desbalances.
-- **Preprocesamiento de datos**: Limpieza, transformación, codificación de variables y manejo del desbalance de la variable objetivo.
-- **Modelado Predictivo**: Implementación y comparación de modelos de Machine Learning para clasificar la probabilidad de renovación.
-- **Interpretación de resultados**: Análisis de métricas, importancia de variables y hallazgos clave.
-- **Recomendaciones estratégicas**: Acciones sugeridas para mejorar la retención y optimizar los esfuerzos comerciales.
-- **App web en Flask:** Interfaz gráfica (web) que utiliza el modelo final para predecir si un cliente renovará su póliza.
+## 📘 DETALLES DEL PROYECTO
 
-El objetivo final es proporcionar una herramienta analítica que permita a la empresa anticipar la no renovación y tomar decisiones informadas basadas en datos.
+Este repositorio busca analizar patrones de comportamiento en el pago de pólizas de seguros para calcular la probabilidad de renovación, tomando información de dataset proporcionado (`insurance_company.csv`). El flujo de trabajo abarca desde la ingesta de datos crudos hasta el despliegue de inferencia.
 
----
+**/// COMPONENTES DEL NOTEBOOK.IPYNB:**
 
-## Estructura del repositorio
+- `CASO DE NEGOCIO`: Introducción, identificación del problema (retención de clientes y su impacto financiero), datos, objetivos y variables (dependiente/independiente).
+- `DESCRIPCIÓN`: Carga de librerías/datos e información general del dataset y sus variables.
+- `EDA`: Análisis exploratorio (con detección de patrones y outliers) y Data Profiling.
+- `PREPROCESSING`: Limpieza, codificación, imputación, normalización y transformación de variables.
+- `MODELING`: Entrenamiento y evaluación de modelos (Random Forest, KNN, Regresión Logística).
+- `RECOMENDACIONES`: Conclusiones finales y acciones sugeridas para mejorar la retención y optimizar los esfuerzos comerciales.
+- `DEPLOYMENT`: API Flask + Frontend estilizado hosteado en **Railway**.
 
-```
+## 📂 SISTEMA DE ARCHIVOS
+
+```text
 PROYECTOFINAL-MURIEL-VITONCO/
 │
-├── data/
+├── data/                                    # [DATASET INPUT/OUTPUT]
 │   ├── crosstabs/
-│   │   ├── proporciones_residence_area_type_renewal.csv
-│   │   └── proporciones_sourcing_channel_renewal.csv
 │   ├── grouped_describe_by_renewal_cat.csv
 │   ├── grouped_describe_by_renewal_num.csv
 │   ├── insurance_company.csv
 │   └── insurance_company_final.csv
 │
-├── images/
+├── images/                                  # [VISUALIZATION OUTPUTS]
+│   ├── univariable/
 │   ├── bivariable/
 │   ├── models/
-│   ├── univariable/
 │   ├── corr_matrix_filtered.png
 │   ├── corr_matrix.png
 │   ├── renewal_dist.png
-│   ├── renewal_smote_dist.png
-│   ├── ridge_plot.png
-│   └── ridge_residuals.png
+│   └── renewal_smote_dist.png
 │
-├── static/
-│   └── css/
-│       └── styles.css
+├── static/                                  # [ESTILOS FRONTEND]
+│   ├── css/styles.css
+│   └── favicon.svg
 │
-├── templates/
+├── templates/                               # [INTERFAZ WEB]
 │   └── index.html
-|
-├── app.py
-├── notebook.ipynb
-├── reporte_eda_profiling.html
-├── requirements.txt
-├── .python-version
-├── .gitignore
-└── README.md
+│
+├── app.py                                   # [BACKEND FLASK]
+├── notebook.ipynb                           # [NOTEBOOK]
+├── reporte_eda_profiling.html               # [REPORTE YDATA-PROFILING]
+├── .python-version                          # [VERSIÓN DE PYTHON]
+├── requirements.txt                         # [DEPENDENCIAS]
+└── README.md                                # < USTED ESTÁ AQUÍ >
 ```
 
-### `data/` Directorio
+### 📝 DESCRIPCIÓN GENERAL
 
-Contiene los datos utilizados en el proyecto, tanto los archivos originales como los datos procesados.
+- `data/`: Datasets original/transformado y tablas estadísticas generadas durante el EDA.
+- `images/`: Visualizaciones producidas en el análisis (univariado, bivariado, correlaciones y gráficos del modelo).
+- `static/`: Estilos CSS e ícono del sitio web.
+- `templates/`: Plantilla HTML para la aplicación web (`index.html`).
+- `app.py`: Archivo principal del servidor Flask, manejo de rutas, carga del modelo y predicciones.
+- `notebook.ipynb`: EDA, transformación de datos, entrenamiento, evaluación de modelos, recomendaciones.
+- `reporte_eda_profiling.html`: Reporte automático generado con YData-Profiling.
+- `requirements.txt`: Lista de dependencias necesarias para reproducir el proyecto.
 
-- `insurance_company.csv`: database original
-- `insurance_company_final.csv`: dataset limpio y transformado para modelado.
-- `grouped_describe_by_renewal_cat.csv`: estadísticas descriptivas agrupadas para variables categóricas según la renovación.
-- `grouped_describe_by_renewal_num.csv`: estadísticas descriptivas agrupadas para variables
-- `crosstabs/`: tablas descriptivas calculadas durante el EDA:
-    - `proporciones_residence_area_type_renewal.csv`
-    - `proporciones_sourcing_channel_renewal.csv`
+## 🛠️ INICIALIZACIÓN
 
----
+**REQUISITOS DEL SISTEMA:**
 
-### `images/` Directorio
+- Python 3.9+
+- pip
+- Entorno Virtual (Recomendado)
+- Navegador web
+- Dependencias:
+    - pandas
+    - numpy
+    - matplotlib
+    - seaborn
+    - ydata-profiling
+    - scipy
+    - imbalanced-learn
+    - scikit-learn
+    - flask
+    - ipykernel
+    - ipywidgets
+    - huggingface_hub
+    - gunicorn
 
-Incluye todas las visualizaciones generadas en el análisis:
-
-- `univariable/`: gráficos univariantes (distribuciones, histogramas, boxplots).
-- `bivariable/`: relaciones bivariantes (violinplots, stacked bars, boxplots).
-- `models/`: gráficos generados durante el entrenamiento y evaluación de modelos.
-
-Además, en la raíz del directorio se incluyen varios archivos PNG individuales:
-- `corr_matrix.png`: matriz de correlación completa.
-- `corr_matrix_filtered.png`: matriz de correlación filtrada por umbral.
-- `renewal_dist.png`: distribución de la variable objetivo (renovación).
-- `renewal_smote_dist.png`: distribución posterior a SMOTE.
-- `ridge_plot.png`: visualización principal del modelo Ridge.
-- `ridge_residuals.png`: análisis de residuos del modelo Ridge.
-
----
-
-### `notebook.ipynb`
-
-Notebook principal con el EDA, preprocesamiento, modelado y evaluación.
-
-### `app.py`
-
-Despliegue simple del modelo.
-
-### `reporte_eda_profiling.html`
-
-Reporte generado automáticamente con _ydata-profiling_.
-
-### `requirements.txt`
-
-Lista de todas las dependencias necesarias para ejecutar el proyecto.
-
-### `.python-version`
-
-Versión de Python utilizada para asegurar compatibilidad en el entorno.
-
-### `README.md`
-
-Documento principal que describe el proyecto.
-
-## Pre-requisitos
-
-Para ejecutar este proyecto necesitas tener instalado:
-
-- **Python 3.9+**
-- **pip** (gestor de paquetes)
-- **Virtual environment** (opcional pero recomendado)
-- **Jupyter Notebook o JupyterLab**
-- Navegador web para visualizar el archivo `reporte_eda_profiling.html`
-
-Además, se requiere instalar las dependencias indicadas en `requirements.txt`, incluyendo:
-
-- pandas
-- numpy
-- matplotlib
-- seaborn
-- ydata-profiling
-- scipy
-- imbalanced-learn
-- scikit-learn
-- flask
-- ipykernel
-- ipywidgets
-
-Estas se instalan automáticamente usando:
+**INSTALACIÓN DE DEPENDENCIAS:**
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Cómo ejecutar el proyecto
+## 🚀 PROTOCOLOS DE EJECUCIÓN
 
-### 1. Clonar el repositorio
+### 1. CLONAR REPOSITORIO
 
 ```bash
 git clone https://github.com/sophie-muriel/ProyectoFinal-Muriel-Vitonco.git
 cd ProyectoFinal-Muriel-Vitonco
 ```
 
-### 2. Crear entorno virtual (opcional)
+### 2. CONFIGURAR ENTORNO VIRTUAL (RECOMENDADO)
 
 ```bash
-python -m venv .venv
 # Windows
+python -m venv .venv
 .venv\Scripts\activate
-# macOS / Linux
+
+# Linux / macOS
+python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Instalar dependencias
+### 3.INSTALAR DEPENDENCIAS
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Ejecutar el notebook
+### 4. EJECUTAR NOTEBOOK
+
+Para regenerar el análisis completo y re-entrenar los modelos localmente:
 
 ```bash
 jupyter notebook
+# Ejecutar todas las celdas de 'notebook.ipynb'
 ```
 
-Abrir: `notebook.ipynb`
-Ejecutar todas las celdas para:
-
-- Cargar datos
-- Realizar el EDA
-- Preprocesar
-- Entrenar modelos
-- Evaluar resultados
-- Guardar modelo y scaler
-
-### 5. Ejecutar la app Flask
+### 5. INICIAR APP FLASK LOCALMENTE (INFERENCIA)
 
 ```bash
 python app.py
 ```
 
----
+_El servidor iniciará en `http://localhost:8080`._
 
-## Resultados principales del modelo
+### 6. ... O IR AL DEMO EN VIVO
+Justo aquí > [PREDICTOR // RENOVACIÓN](#-app-web--demo-en-vivo)
 
-El modelo final desarrollado para predecir la **probabilidad de renovación de pólizas** se construyó después del EDA, balanceo de clases, escalado y comparación de múltiples algoritmos.
 
-### Desempeño general
+## 📊 CONCLUSIONES GENERALES
 
-- El modelo seleccionado ofrece alta capacidad para distinguir clientes que renuevan vs. no renuevan, incluso con un dataset fuertemente desbalanceado (~6.3% no renuevan).
-- Se priorizaron métricas enfocadas en la clase minoritaria, evitando depender únicamente de la accuracy.
+> *El objetivo principal fue: **¿Qué factores influyen en la propensión a renovar primas de seguros, y cómo se puede preparar el dataset, modelar y evaluar para predecir esta probabilidad y optimizar incentivos?***
 
-### Métricas destacadas
+El modelo final (**Random Forest**) se seleccionó tras el EDA, Data Preprocessing y pruebas comparativas entre múltiples modelos, principalmente debido a su capacidad para manejar el desbalance de clases (~6.3% Churn Rate). Este modelo presenta una alta capacidad de diferenciación entre clientes que renuevan vs. no renuevan.
 
-- **Recall (para no renovación)**: Alto, permitiendo identificar una mayor proporción de clientes con riesgo real de no renovar.
-- **Precision (para no renovación)**: Adecuada pese al desbalance, reduciendo falsos positivos.
-- **F1-score**: Muestra un balance sólido entre recall y precision en la clase minoritaria.
-- **ROC-AUC**: Indica buena separación entre ambas clases.
+**> STATUS DEL MODELO:**
 
-*(Nota: los valores exactos de las métricas se pueden consultar en la sección de modelado del notebook.)*
+- **Variable Objetivo:** Renovación (Binaria); `renewal`.
+- **Prioridad:** Maximizar `Recall` en clase minoritaria (No Renovación).
+- **Métricas excelentes**: Precisión alta, F1-score balanceado, ROC-AUC sólido con buena separación entre clases, etc.
 
-### Variables más influyentes
+> *Los valores exactos pueden consultarse en la `[SECCIÓN 8.2]` del Jupyter Notebook.*
 
-El análisis del modelo resalta que los factores más relevantes para predecir la no renovación son:
+**> VARIABLES DE ALTO IMPACTO:**
 
-1. **`perc_premium_paid_by_cash_credit`**: Los clientes que pagan mayor parte de la prima con efectivo/crédito tienen mayor riesgo de no renovar.
-2. **Historial de atrasos**: `count_3-6_months_late`, `count_6-12_months_late`, `count_more_than_12_months_late` son señales muy fuertes de riesgo.
-3. **`premium`**: Primas más altas se relacionan con una mayor probabilidad de renovación.
-4. **`application_underwriting_score`**: Aunque con baja variabilidad, pequeñas diferencias son significativas.
-5. **`sourcing_channel`**: Ciertos canales presentan tasas de renovación más bajas, clave para ajustar estrategias comerciales.
+1. `perc_premium_paid_by_cash_credit`
+2. `income`
+3. `application_underwriting_score`
+4. `age_in_years`
+5. `total_late_payments`
+6. `has_late_payments` (Historial)
 
-### Conclusión
+## 👥 AUTORES
 
-El modelo permite identificar perfiles de clientes con riesgo de no renovar para:
+**Hecho por Sophie Muriel y Karol Vitonco. 2025/11/23.**
 
-- Aplicar campañas preventivas más eficientes.
-- Optimizar incentivos por canal comercial.
-- Priorizar clientes donde una intervención temprana puede evitar la pérdida de ingresos.
-
-Este resultado (detallado más en el notebook) se integra en la aplicación Flask incluida en el proyecto, permitiendo realizar predicciones de manera simple y accesible desde una interfaz web.
-
----
-
-## Contribuyentes
-
-- **Sophie Muriel** – [GitHub](https://github.com/sophie-muriel)
-- **Karol Vitonco** – [GitHub](https://github.com/KrlVanessa)
-
----
+- **Sophie Muriel** > [PERFIL DE GITHUB](https://github.com/sophie-muriel)
+- **Karol Vitonco** > [PERFIL DE GITHUB](https://github.com/KrlVanessa)
