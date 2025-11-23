@@ -1,3 +1,15 @@
-.ml-venv/
 insurance_renewal_model.pkl
 scaler.pkl
+
+# cache hf
+models--*
+*.lock
+*.locks
+
+# python
+__pycache__/
+*.pyc
+instance/
+.pytest_cache/
+.env
+.ml-venv/
