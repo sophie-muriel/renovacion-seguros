@@ -1,23 +1,14 @@
-<div style="text-align: center;">
-
 # > PROYECTO FINAL ML <
 
-<img src="static/header.png" style="max-height: 15rem; width:auto;" />
+![logo](/static/header.png)
 
-<div style="display:flex; justify-content:center; align-items:flex-start; gap:1rem; max-width:100%;">
-    <img src="static/mockups.png" style="height:auto; max-height:40rem; object-fit:contain;" />
-</div>
-
-
-<br />
+![mockups](/static/mockups.png)
 
 ![Repo Size](https://img.shields.io/github/repo-size/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
 ![Last Commit](https://img.shields.io/github/last-commit/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=ffe058&labelColor=black)
 ![Contributors](https://img.shields.io/github/contributors/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
 
-***SISTEMA DE PREDICCIÓN DE RETENCIÓN DE PÓLIZAS DE SEGUROS.***
-
-</div>
+> ***SISTEMA DE PREDICCIÓN DE RETENCIÓN DE PÓLIZAS DE SEGUROS.***
 
 ## ⚡ APP WEB // DEMO EN VIVO
 
