@@ -1,10 +1,23 @@
-# > PROYECTO FINAL ML: PREDICTOR // RENOVACIÓN
+<div style="text-align: center;">
+
+# > PROYECTO FINAL ML <
+
+<img src="static/header.png" style="max-height: 15rem; width:auto;" />
+
+<div style="display:flex; justify-content:center; align-items:flex-start; gap:1rem; max-width:100%;">
+    <img src="static/mockups.png" style="height:auto; max-height:40rem; object-fit:contain;" />
+</div>
+
+
+<br />
 
 ![Repo Size](https://img.shields.io/github/repo-size/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
 ![Last Commit](https://img.shields.io/github/last-commit/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=ffe058&labelColor=black)
 ![Contributors](https://img.shields.io/github/contributors/sophie-muriel/ProyectoFinal-Muriel-Vitonco?style=for-the-badge&color=black&labelColor=grey)
 
-> **_SISTEMA DE PREDICCIÓN DE RETENCIÓN DE PÓLIZAS DE SEGUROS._**
+***SISTEMA DE PREDICCIÓN DE RETENCIÓN DE PÓLIZAS DE SEGUROS.***
+
+</div>
 
 ## ⚡ APP WEB // DEMO EN VIVO
 
@@ -20,10 +33,10 @@ Para optimizar el repositorio, los archivos binarios pesados (`.pkl`) **NO** est
 - **Origen:** Se generan automáticamente en la `[SECCIÓN 10]` del Jupyter Notebook durante su ejecución.
 - **Runtime:** Durante el despliegue, el sistema descarga automáticamente los modelos desde **Hugging Face Hub**.
 
-| ARCHIVO | TIPO | ENLACE |
-| :------ | :--- | :----- |
+| ARCHIVO                       | TIPO                   | ENLACE                                                                                                            |
+| :---------------------------- | :--------------------- | :---------------------------------------------------------------------------------------------------------------- |
 | `insurance_renewal_model.pkl` | Modelo (Random Forest) | [Hugging Face Repo](https://huggingface.co/sophie-muriel/insurance-renewal/blob/main/insurance_renewal_model.pkl) |
-| `scaler.pkl` | Scaler (MinMax) | [Hugging Face Repo](https://huggingface.co/sophie-muriel/insurance-renewal/blob/main/scaler.pkl) |
+| `scaler.pkl`                  | Scaler (MinMax)        | [Hugging Face Repo](https://huggingface.co/sophie-muriel/insurance-renewal/blob/main/scaler.pkl)                  |
 
 ## 🧭 ÍNDICE // NAVEGACIÓN
 
@@ -71,7 +84,9 @@ PROYECTOFINAL-MURIEL-VITONCO/
 │
 ├── static/                                  # [ESTILOS FRONTEND]
 │   ├── css/styles.css
-│   └── favicon.svg
+│   ├── favicon.svg
+│   ├── header.png
+│   └── mockups.png
 │
 ├── templates/                               # [INTERFAZ WEB]
 │   └── index.html
@@ -89,7 +104,7 @@ PROYECTOFINAL-MURIEL-VITONCO/
 
 - `data/`: Datasets original/transformado y tablas estadísticas generadas durante el EDA.
 - `images/`: Visualizaciones producidas en el análisis (univariado, bivariado, correlaciones y gráficos del modelo).
-- `static/`: Estilos CSS e ícono del sitio web.
+- `static/`: Estilos CSS, imágenes de mockups e ícono del sitio web.
 - `templates/`: Plantilla HTML para la aplicación web (`index.html`).
 - `app.py`: Archivo principal del servidor Flask, manejo de rutas, carga del modelo y predicciones.
 - `notebook.ipynb`: EDA, transformación de datos, entrenamiento, evaluación de modelos, recomendaciones.
@@ -105,19 +120,19 @@ PROYECTOFINAL-MURIEL-VITONCO/
 - Entorno Virtual (Recomendado)
 - Navegador web
 - Dependencias:
-    - pandas
-    - numpy
-    - matplotlib
-    - seaborn
-    - ydata-profiling
-    - scipy
-    - imbalanced-learn
-    - scikit-learn
-    - flask
-    - ipykernel
-    - ipywidgets
-    - huggingface_hub
-    - gunicorn
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - ydata-profiling
+  - scipy
+  - imbalanced-learn
+  - scikit-learn
+  - flask
+  - ipykernel
+  - ipywidgets
+  - huggingface_hub
+  - gunicorn
 
 **INSTALACIÓN DE DEPENDENCIAS:**
 
@@ -170,12 +185,12 @@ python app.py
 _El servidor iniciará en `http://localhost:8080`._
 
 ### 6. ... O IR AL DEMO EN VIVO
-Justo aquí > [PREDICTOR // RENOVACIÓN](#-app-web--demo-en-vivo)
 
+Justo aquí > [PREDICTOR // RENOVACIÓN](#-app-web--demo-en-vivo)
 
 ## 📊 CONCLUSIONES GENERALES
 
-> *El objetivo principal fue: **¿Qué factores influyen en la propensión a renovar primas de seguros, y cómo se puede preparar el dataset, modelar y evaluar para predecir esta probabilidad y optimizar incentivos?***
+> \*El objetivo principal fue: **¿Qué factores influyen en la propensión a renovar primas de seguros, y cómo se puede preparar el dataset, modelar y evaluar para predecir esta probabilidad y optimizar incentivos?\***
 
 El modelo final (**Random Forest**) se seleccionó tras el EDA, Data Preprocessing y pruebas comparativas entre múltiples modelos, principalmente debido a su capacidad para manejar el desbalance de clases (~6.3% Churn Rate). Este modelo presenta una alta capacidad de diferenciación entre clientes que renuevan vs. no renuevan.
 
@@ -185,7 +200,7 @@ El modelo final (**Random Forest**) se seleccionó tras el EDA, Data Preprocessi
 - **Prioridad:** Maximizar `Recall` en clase minoritaria (No Renovación).
 - **Métricas excelentes**: Precisión alta, F1-score balanceado, ROC-AUC sólido con buena separación entre clases, etc.
 
-> *Los valores exactos pueden consultarse en la `[SECCIÓN 8.2]` del Jupyter Notebook.*
+> _Los valores exactos pueden consultarse en la `[SECCIÓN 8.2]` del Jupyter Notebook._
 
 **> VARIABLES DE ALTO IMPACTO:**
 
@@ -200,7 +215,7 @@ Para consultar la totalidad del análisis, se incluye en el repositorio el archi
 
 ## 👥 AUTORES
 
-**Hecho por Sophie Muriel y Karol Vitonco. 2025/11/23.**
+Hecho por:
 
 - **Sophie Muriel** > [PERFIL DE GITHUB](https://github.com/sophie-muriel)
 - **Karol Vitonco** > [PERFIL DE GITHUB](https://github.com/KrlVanessa)
